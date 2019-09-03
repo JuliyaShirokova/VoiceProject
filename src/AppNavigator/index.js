@@ -1,15 +1,15 @@
 import React from 'react'
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import MainScreen from '../components/Screens/MainScreen';
-import ResultsScreen from '../components/Screens/ResultsScreen';
+import LevelsListScreen from '../components/Screens/LevelsListScreen';
 
 const MainStack = createStackNavigator(
   {
+    LevelsList: { screen: LevelsListScreen },
     Main: { screen: MainScreen },
-    Results: { screen: ResultsScreen },
   }, 
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'LevelsList',
     cardStyle: {
       shadowColor: 'transparent',
     },
