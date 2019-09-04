@@ -1,5 +1,5 @@
-import { LEVEL_UP, LEVELS_RESET } from "../constants/action-types";
-import { MAX_LEVEL } from '../constants/maxLevel';
+import { LEVEL_UP, LEVELS_RESET } from "../constants/actionTypes";
+import { MAX_LEVEL } from '../constants/commonConstants';
 
 const INITIAL_STATE = {
   level: [1]
@@ -12,10 +12,8 @@ function levels(state = INITIAL_STATE, action) {
       return {
         level: [...state.level, currLevel]
       }
-    case LEVELS_RESET: 
-      return INITIAL_STATE; 
-    default : 
-      return state;
+    case LEVELS_RESET: {return INITIAL_STATE}; 
+    default : {return state};
   }
   
 }

@@ -1,4 +1,4 @@
-import { LEVEL_UP, LEVELS_RESET } from "../constants/action-types";
+import { LEVEL_UP, LEVELS_RESET } from "../constants/actionTypes";
 
 export function levelUp( payload ) {
     return { type: LEVEL_UP, payload }

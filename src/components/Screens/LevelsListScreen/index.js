@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import LevelsListContainer from '../../Containers/LevelsListContainer';
 import * as colors from '../../../constants/colors';
 import { moderateScale } from '../../../utilits/scalable';
+import HeaderTitle from '../../Common/HeaderTitle';
 import SplashScreen from 'react-native-splash-screen';
 
 class LevelsListScreen extends Component{

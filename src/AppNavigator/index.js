@@ -1,5 +1,6 @@
 import React from 'react'
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from  'react-navigation-stack';
 import MainScreen from '../components/Screens/MainScreen';
 import LevelsListScreen from '../components/Screens/LevelsListScreen';
 
