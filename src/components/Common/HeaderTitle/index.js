@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: moderateScale(24),
         lineHeight: moderateScale(26),
-        fontFamily: fonts.HelveticaNeue,
+        fontFamily: fonts.HelveticaNeueBold,
     }
 })

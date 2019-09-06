@@ -15,14 +15,10 @@ export default class LevelsList extends PureComponent{
     
     _keyExtractor = (item, index) => (item.key).toString();
   
-    _onPressItem = ( key ) => { };
-  
     _renderItem = (item) => {
-        console.log(item);
         return <ListItemRender
-          level={item.item.key}
-          onPressItem={this._onPressItem}
-          status={item.status}
+            item={item.item}
+            navigation={this.props.navigation}
         />
     }
   
@@ -48,10 +44,11 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
+        paddingTop: '20%',
     },
     row: {
         width: '100%',
-        borderWidth: 1,
+        paddingVertical: '2.5%',
         paddingHorizontal: PADDING_HORIZONTAL,
         justifyContent: "space-around"
     },

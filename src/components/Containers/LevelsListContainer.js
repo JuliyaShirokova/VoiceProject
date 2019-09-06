@@ -7,6 +7,7 @@ import { MAX_LEVEL } from '../../constants/commonConstants';
 const getListData = ( levels ) => {
   let arr = [];
   let arrLevels=levels.level;
+  console.log(levels);
 
   const arrLength = arrLevels.length;
   const curr = arrLevels[ arrLength - 1];

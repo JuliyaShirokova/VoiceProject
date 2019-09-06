@@ -1,7 +1,10 @@
-export const mainContrast = 'rgba(144,19,254,0.7)';
-export const mainContrastWithoutOpacity = 'rgb(144,19,254)';
+export const mainContrast = '#00C2FF';
+export const mainContrastWithoutOpacity = '#00C2FF';
 export const titleText = '#f5f5f5';
 export const selectBackground = '#919191'
 export const contentText="#212121";
 export const white = '#ffffff';
 export const black = '#000000';
+export const doneBgColor = '#DADED9';
+export const currentBgColor = '#26DA22';
+export const futureBgColor = '#FF8F3F';
