@@ -3,10 +3,14 @@ import {
   StyleSheet, 
   TouchableOpacity, 
   View,
-  Text
+  Text,
+  Dimensions
 } from 'react-native';
-import { HelveticaNeue } from '../../constants/fonts';
+import { HelveticaNeueBold } from '../../constants/fonts';
 import * as colors from '../../constants/colors';
+import { moderateScale } from '../../utilits/scalable';
+import { PADDING_HORIZONTAL } from '../../constants/commonConstants';
+
 
 export default ListItemRender = ( props ) => {
     const { item } = {...props};
@@ -48,18 +52,19 @@ export default ListItemRender = ( props ) => {
 
     return _prepareRenderItem( item );
   }
+const buttonSize = Math.max(((Dimensions.get('screen').width - PADDING_HORIZONTAL*2)*0.2), 42);
   const styles = StyleSheet.create({
     itemContainer: {
-      height: 60,
-      width: 60,
+      height: buttonSize,
+      width: buttonSize,
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: 30,
+      borderRadius: buttonSize/2,
     },
     itemText: {
-      fontSize: 20,
-      lineHeight: 22,
-      fontFamily:  HelveticaNeue,
+      fontSize: moderateScale(20),
+      lineHeight: moderateScale(22),
+      fontFamily:  HelveticaNeueBold,
       color: colors.white,
     
     },

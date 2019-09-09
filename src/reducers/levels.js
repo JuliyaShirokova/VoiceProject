@@ -2,7 +2,8 @@ import { LEVEL_UP, LEVELS_RESET } from "../constants/actionTypes";
 import { MAX_LEVEL } from '../constants/commonConstants';
 
 const INITIAL_STATE = {
-  level: [1, 2, 3]
+  level: [1],
+  sublevel: [1]
 };
 
 const levels = (state = INITIAL_STATE, action) => {

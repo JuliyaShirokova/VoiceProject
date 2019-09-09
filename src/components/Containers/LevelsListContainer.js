@@ -4,10 +4,8 @@ import { levelUp, levelsReset } from '../../actions';
 import {connect} from "react-redux";
 import { MAX_LEVEL } from '../../constants/commonConstants';
 
-const getListData = ( levels ) => {
+const getListData = ( arrLevels ) => {
   let arr = [];
-  let arrLevels=levels.level;
-  console.log(levels);
 
   const arrLength = arrLevels.length;
   const curr = arrLevels[ arrLength - 1];
@@ -26,7 +24,7 @@ const getListData = ( levels ) => {
 
 const mapStateToProps = state => ({
     levels : state.levels,
-    listData: getListData(state.levels)
+    listData: getListData(state.levels.level)
   })
   
   const mapDispatchToProps = dispatch => ({

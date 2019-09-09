@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import ListItemRender from '../ListItemRender';
 import { PADDING_HORIZONTAL } from '../../constants/commonConstants';
+import { HelveticaNeue } from '../../constants/fonts';
+import { moderateScale } from '../../utilits/scalable';
 
 
 export default class LevelsList extends PureComponent{
@@ -45,6 +47,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         paddingTop: '20%',
+        alignItems: 'center'
     },
     row: {
         width: '100%',
@@ -55,6 +58,6 @@ const styles = StyleSheet.create({
     flatList: {
         width: '100%',
         height: '100%',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
     }
 })

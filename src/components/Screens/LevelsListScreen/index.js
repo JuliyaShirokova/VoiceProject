@@ -5,6 +5,8 @@ import * as colors from '../../../constants/colors';
 import { moderateScale } from '../../../utilits/scalable';
 import HeaderTitle from '../../Common/HeaderTitle';
 import SplashScreen from 'react-native-splash-screen';
+import { PADDING_HORIZONTAL } from '../../../constants/commonConstants';
+import BG from '../../Common/SvgComponents/BG';
 
 class LevelsListScreen extends Component{
     constructor(props){
@@ -12,7 +14,11 @@ class LevelsListScreen extends Component{
     }
     
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: (<HeaderTitle text={"Levels list"} textColor={colors.titleText} />),
+        headerTitle: (<HeaderTitle 
+            text={"WELCOME!"} 
+            paddingLeft={PADDING_HORIZONTAL} 
+            textColor={colors.titleText} 
+            />),
         headerStyle: { 
             height: moderateScale(90),
             paddingTop: moderateScale(30),
@@ -31,6 +37,9 @@ class LevelsListScreen extends Component{
             <View
                 style={styles.container}
             >
+                <View style={styles.bgContainer}>
+                    <BG />
+                </View>
                 <LevelsListContainer
                     navigation = {this.props.navigation}
                 />
@@ -43,6 +52,13 @@ const styles=StyleSheet.create({
         width: '100%',
         height: '100%',
     },
+    bgContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+    }
 })
 export default LevelsListScreen;
 

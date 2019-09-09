@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import MicrophoneContainer from '../../Containers/MicrophoneContainer';
 import * as colors from '../../../constants/colors';
 import { moderateScale } from '../../../utilits/scalable';
 import HeaderTitle from '../../Common/HeaderTitle';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { PADDING_HORIZONTAL } from '../../../constants/commonConstants';
+import LevelContainer from '../../Containers/LevelContainer';
 
 class MainScreen extends Component{
     constructor(props){
@@ -11,7 +13,18 @@ class MainScreen extends Component{
     }
     
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: (<HeaderTitle text={"Level " + navigation.getParam('key')} textColor={colors.titleText} />),
+        headerLeft: (<TouchableOpacity
+                onPress={ () => { navigation.goBack() }}
+                style={{paddingLeft: PADDING_HORIZONTAL}}
+            >
+            <Icon 
+                name={'ios-arrow-back'}
+                size={moderateScale(24)}
+                color={colors.white}
+            />
+            </TouchableOpacity>
+            ),
+        headerTitle: (<HeaderTitle text={"Level " + navigation.getParam('key')} paddingLeft={0} textColor={colors.titleText} />),
         headerStyle: { 
             height: moderateScale(90),
             paddingTop: moderateScale(30),
@@ -29,7 +42,7 @@ class MainScreen extends Component{
             <View
                 style={styles.container}
             >
-                <MicrophoneContainer />
+                <LevelContainer />
             </View>
         )
     }
