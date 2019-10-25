@@ -3,29 +3,38 @@ import {
     View,
     StyleSheet,
     Text,
+    Alert,
     TouchableOpacity 
 } from 'react-native';
-import MicrophoneContainer from '../Common/Microphone';
+import MicrophoneContainer from '../Containers/MicrophoneContainer';
+import Microphone from '../Common/Microphone';
 import * as colors from '../../constants/colors';
 import { moderateScale } from '../../utilits/scalable';
 import { HelveticaNeueBold } from '../../constants/fonts';
 
 export default class Level extends Component{
-    constructor(props){
-        super(props);   
-    }
-
-    render(){
+   
+    getSyllableWord = () => {
         const { displayData } = this.props;
+        return displayData["syllable"];
+    }
+    render(){
+        const { onLevelUp, onSublevelUp, displayData, levels } = this.props;
+        console.log('Level props', JSON.stringify(levels))
         return (
             <View
                 style={styles.container}
             >
 
                 <View style={styles.wordContainer}>
-                    <Text style={styles.wordText}>{displayData}</Text>
+                    <Text style={styles.wordText}>{this.getSyllableWord()}</Text>
                 </View>
-                <MicrophoneContainer />
+                <Microphone
+                    levels = {levels}
+                    displayData = {displayData}
+                    onLevelUp = {onLevelUp}
+                    onSublevelUp = {onSublevelUp}
+                     />
             </View>
         )
     }

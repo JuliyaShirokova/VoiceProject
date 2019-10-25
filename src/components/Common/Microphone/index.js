@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
-
+import { StyleSheet, Text, View, Alert, Image, TouchableHighlight } from 'react-native';
+import { MAX_LEVEL } from '../../../constants/commonConstants'
 import Voice from 'react-native-voice';
+import { lastInArray } from '../../../utilits/lastInArray';
+import { levelsSource } from '../../../sources/levelsSource';
 
-class VoiceTest extends Component {
+class Microphone extends Component {
   state = {
     recognized: '',
     pitch: '',
@@ -28,9 +30,25 @@ class VoiceTest extends Component {
   componentWillUnmount() {
     Voice.destroy().then(Voice.removeAllListeners);
   }
+  checkResults = () => {
+    const { displayData } = this.props;
+    const word = displayData["word"];
+    const arrValue = [...this.state.results, ...this.state.partialResults];
+    console.log("arr value", arrValue);
+   
+    if (arrValue.find((value, ind, arr) => {
+      //  console.log('item-'+ind, arr[ind], word)
+        const valTransforming = arr[ind].toString().toLowerCase();
+        const wordTransforming = word.toString().toLowerCase();
+        console.log(valTransforming, wordTransforming, valTransforming == wordTransforming)
+        return valTransforming == wordTransforming
+      })){
+      //  this._stopRecognizing();
+        this._changeLevel();
+      }
+  }
 
   onSpeechStart = e => {
-    // eslint-disable-next-line
     console.log('onSpeechStart: ', e);
     this.setState({
       started: '√',
@@ -38,48 +56,83 @@ class VoiceTest extends Component {
   };
 
   onSpeechRecognized = e => {
-    // eslint-disable-next-line
     console.log('onSpeechRecognized: ', e);
+    
     this.setState({
       recognized: '√',
-    });
+    },
+    this.checkResults);
   };
 
   onSpeechEnd = e => {
-    // eslint-disable-next-line
     console.log('onSpeechEnd: ', e);
     this.setState({
       end: '√',
-    });
+    },
+    this.checkResults);
   };
 
   onSpeechError = e => {
-    // eslint-disable-next-line
     console.log('onSpeechError: ', e);
     this.setState({
       error: JSON.stringify(e.error),
     });
   };
 
+  _onSublevelUp = () => {
+    const { onSublevelUp } = this.props;
+    onSublevelUp();
+  }
+  _onLevelUp = () => {
+    const {  onLevelUp } = this.props;
+    onLevelUp();  
+  }
+
+  _changeLevel = () => {
+    
+    const { levels } = this.props;
+    console.log('level props', JSON.stringify(levels))
+    const arrLevel = levels.level;
+
+    const currLevel = lastInArray(arrLevel);
+    console.log('current level', currLevel.toString());
+    const currArrSublevel = levelsSource && levelsSource['level-'+currLevel];
+    console.log('arr source ', JSON.stringify(levelsSource));
+    const maxSublevel = currArrSublevel && currArrSublevel.length;
+    
+    const arrSublevel = levels.sublevel;
+    const currSublevel = lastInArray(arrSublevel);
+    console.log('current sublevel', currSublevel.toString());
+    
+    if( currSublevel < maxSublevel){
+      console.log("next sublevel");
+      this._onSublevelUp();
+    }else if (( currSublevel >= maxSublevel) && ( currLevel < MAX_LEVEL)) {
+      console.log("Next level");
+      this._onLevelUp();
+    }else if (currLevel >= MAX_LEVEL){
+      console.log(" You are Win!")
+    }
+  }
+
   onSpeechResults = e => {
-    // eslint-disable-next-line
     console.log('onSpeechResults: ', e);
     this.setState({
       results: e.value,
-    });
+    },
+    this.checkResults);
   };
 
   onSpeechPartialResults = e => {
-    // eslint-disable-next-line
     console.log('onSpeechPartialResults: ', e);
     this.setState({
       partialResults: e.value,
-    });
+    },
+    this.checkResults);
   };
 
   onSpeechVolumeChanged = e => {
-    // eslint-disable-next-line
-    console.log('onSpeechVolumeChanged: ', e);
+    //console.log('onSpeechVolumeChanged: ', e);
     this.setState({
       pitch: e.value,
     });
@@ -97,9 +150,9 @@ class VoiceTest extends Component {
     });
 
     try {
+      console.log('start')
       await Voice.start('ru-RU');
     } catch (e) {
-      //eslint-disable-next-line
       console.error(e);
     }
   };
@@ -107,8 +160,8 @@ class VoiceTest extends Component {
   _stopRecognizing = async () => {
     try {
       await Voice.stop();
+      console.log("stop");
     } catch (e) {
-      //eslint-disable-next-line
       console.error(e);
     }
   };
@@ -117,7 +170,6 @@ class VoiceTest extends Component {
     try {
       await Voice.cancel();
     } catch (e) {
-      //eslint-disable-next-line
       console.error(e);
     }
   };
@@ -126,7 +178,6 @@ class VoiceTest extends Component {
     try {
       await Voice.destroy();
     } catch (e) {
-      //eslint-disable-next-line
       console.error(e);
     }
     this.setState({
@@ -189,7 +240,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   container: {
-    flex: 1,
+    flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -216,4 +267,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VoiceTest;
+export default Microphone;

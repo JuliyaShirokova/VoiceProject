@@ -1,8 +1,11 @@
-import { LEVEL_UP, LEVELS_RESET } from "../constants/actionTypes";
+import { LEVEL_UP, SUBLEVEL_UP, LEVELS_RESET } from "../constants/actionTypes";
 
-export function levelUp( payload ) {
-    return { type: LEVEL_UP, payload }
-  };
-export function levelsReset(payload){
-  return { type: LEVELS_RESET, payload }
+export function levelUp( ) {
+  return { type: LEVEL_UP }
+};
+export function sublevelUp( ) {
+  return { type: SUBLEVEL_UP }
+};
+export function levelsReset( ){
+  return { type: LEVELS_RESET }
 }

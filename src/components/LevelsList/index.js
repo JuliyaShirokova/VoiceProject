@@ -25,6 +25,8 @@ export default class LevelsList extends PureComponent{
     }
   
     render() {
+        const { levels } = this.props;
+        console.log('Level list props', JSON.stringify(levels))
         return (
             <View style={styles.container}>
                 <FlatList
