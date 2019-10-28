@@ -7,5 +7,6 @@ export function sublevelUp( ) {
   return { type: SUBLEVEL_UP }
 };
 export function levelsReset( ){
+  console.log('actions levels reset')
   return { type: LEVELS_RESET }
 }

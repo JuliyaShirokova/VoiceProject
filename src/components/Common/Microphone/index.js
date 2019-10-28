@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Alert, Image, TouchableHighlight } from 'react-native';
-import { MAX_LEVEL } from '../../../constants/commonConstants'
+import { maxLevel } from '../../../sources/levelsSource';
 import Voice from 'react-native-voice';
 import { lastInArray } from '../../../utilits/lastInArray';
 import { levelsSource } from '../../../sources/levelsSource';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 class Microphone extends Component {
   state = {
@@ -40,7 +41,7 @@ class Microphone extends Component {
       //  console.log('item-'+ind, arr[ind], word)
         const valTransforming = arr[ind].toString().toLowerCase();
         const wordTransforming = word.toString().toLowerCase();
-        console.log(valTransforming, wordTransforming, valTransforming == wordTransforming)
+      //  console.log(valTransforming, wordTransforming, valTransforming == wordTransforming)
         return valTransforming == wordTransforming
       })){
       //  this._stopRecognizing();
@@ -105,13 +106,13 @@ class Microphone extends Component {
     console.log('current sublevel', currSublevel.toString());
     
     if( currSublevel < maxSublevel){
-      console.log("next sublevel");
+      Alert.alert("Молодец!");
       this._onSublevelUp();
-    }else if (( currSublevel >= maxSublevel) && ( currLevel < MAX_LEVEL)) {
-      console.log("Next level");
+    }else if (( currSublevel >= maxSublevel) && ( currLevel < maxLevel)) {
+      Alert.alert("Отлично!", "Переходи на новий уровень!");
       this._onLevelUp();
-    }else if (currLevel >= MAX_LEVEL){
-      console.log(" You are Win!")
+    }else if (currLevel >= maxLevel){
+      Alert.alert("Ты все прочитал!")
     }
   }
 
@@ -166,31 +167,6 @@ class Microphone extends Component {
     }
   };
 
-  _cancelRecognizing = async () => {
-    try {
-      await Voice.cancel();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  _destroyRecognizer = async () => {
-    try {
-      await Voice.destroy();
-    } catch (e) {
-      console.error(e);
-    }
-    this.setState({
-      recognized: '',
-      pitch: '',
-      error: '',
-      started: '',
-      results: [],
-      partialResults: [],
-      end: '',
-    });
-  };
-
   render() {
     return (
       <View style={styles.container}>
@@ -217,28 +193,43 @@ class Microphone extends Component {
           );
         })}
         <Text style={styles.stat}>{`End: ${this.state.end}`}</Text>
-        <TouchableHighlight onPress={this._startRecognizing}>
-          <Text style={styles.action}>Start</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this._stopRecognizing}>
-          <Text style={styles.action}>Stop Recognizing</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this._cancelRecognizing}>
-          <Text style={styles.action}>Cancel</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this._destroyRecognizer}>
-          <Text style={styles.action}>Destroy</Text>
-        </TouchableHighlight>
-      </View>
+        <View
+          style={[styles.buttonContainer, styles.startContainer]}
+        >
+          <TouchableHighlight
+            onPress={this._startRecognizing}
+            style={[styles.buttonTouch, styles.startTouch]}
+          >
+            <Icon
+              name='microphone'
+              size={24}
+              color='#ffffff'
+            />
+          </TouchableHighlight>
+        </View>
+        <View
+          style={[styles.buttonContainer, styles.stopContainer]}
+        >
+          <TouchableHighlight 
+            onPress={this._stopRecognizing}
+            style={[styles.buttonTouch, styles.startTouch]}
+          >
+            <Icon
+              name='microphone-slash'
+              size={24}
+              color='#ffffff'
+            />
+          </TouchableHighlight>
+        
+        </View>
+     </View>
     );
   }
 }
 
+const buttonSize=80;
+
 const styles = StyleSheet.create({
-  button: {
-    width: 50,
-    height: 50,
-  },
   container: {
     flex: 3,
     justifyContent: 'center',
@@ -250,9 +241,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   action: {
+    fontSize: 20,
     textAlign: 'center',
-    color: '#0000FF',
-    marginVertical: 5,
+    color: '#ffffff',
     fontWeight: 'bold',
   },
   instructions: {
@@ -265,6 +256,25 @@ const styles = StyleSheet.create({
     color: '#B0171F',
     marginBottom: 1,
   },
+  buttonContainer: {
+    width: buttonSize,
+    height: buttonSize,
+    borderRadius: buttonSize/2,
+  },
+  startContainer: {
+    backgroundColor: 'green'
+  },
+  stopContainer: {
+    backgroundColor: 'red'
+  },
+  buttonTouch: {
+    width: '100%',
+    height: '100%',
+    borderRadius: buttonSize/2,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
 });
 
 export default Microphone;

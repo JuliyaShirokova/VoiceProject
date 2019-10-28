@@ -6,10 +6,15 @@ import HeaderTitle from '../../Common/HeaderTitle';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { PADDING_HORIZONTAL } from '../../../constants/commonConstants';
 import LevelContainer from '../../Containers/LevelContainer';
+import { lastInArray } from '../../../utilits/lastInArray';
+import { connect } from 'react-redux';
 
-class MainScreen extends Component{
+
+class LevelScreen extends Component{
     constructor(props){
-        super(props);   
+        super(props); 
+
+
     }
     
     static navigationOptions = ({ navigation }) => ({
@@ -24,7 +29,7 @@ class MainScreen extends Component{
             />
             </TouchableOpacity>
             ),
-        headerTitle: (<HeaderTitle text={"Level " + navigation.getParam('key')} paddingLeft={0} textColor={colors.titleText} />),
+        headerTitle: (<HeaderTitle text={"Level " + ( navigation.getParam('currLevel') || '') } paddingLeft={0} textColor={colors.titleText} />),
         headerStyle: { 
             height: moderateScale(90),
             paddingTop: moderateScale(30),
@@ -34,9 +39,14 @@ class MainScreen extends Component{
         }
     });
     
-    componentDidMount() {
+    componentDidMount = () => {
+        this.props.navigation.setParams({
+            currLevel: this.props.currLevel
+        })
     }  
-
+    componentDidCatch(error, info) {
+        console.log('ERROR. Component did catch.', error, info.componentStack);
+    }
     render(){
         return (
             <View
@@ -55,5 +65,25 @@ const styles=StyleSheet.create({
         alignItems: 'center',
     },
 })
-export default MainScreen;
 
+const getCurrentLevel = (levels) => {
+    const level = levels.level;
+    const currLevel = lastInArray(level) || 1;
+    console.log('get current level ', currLevel)
+    return currLevel;
+}
+
+const mapStateToProps = state => {
+    console.log('Level screen', JSON.stringify(state))
+    return ({
+      currLevel: getCurrentLevel(state.levels),
+    })
+}
+  
+  
+const mapDispatchToProps = dispatch => ({})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(LevelScreen)

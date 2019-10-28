@@ -6,7 +6,6 @@ import {
     Alert,
     TouchableOpacity 
 } from 'react-native';
-import MicrophoneContainer from '../Containers/MicrophoneContainer';
 import Microphone from '../Common/Microphone';
 import * as colors from '../../constants/colors';
 import { moderateScale } from '../../utilits/scalable';

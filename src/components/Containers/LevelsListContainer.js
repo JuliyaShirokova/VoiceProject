@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import LevelsList from '../LevelsList';
 import { levelUp, levelsReset } from '../../actions';
 import { connect } from 'react-redux';
-import { MAX_LEVEL } from '../../constants/commonConstants';
+import { maxLevel } from '../../sources/levelsSource';
 
 const getListData = (arrLevels) => {
   const arr = []
   const arrLength = arrLevels.length
   const curr = arrLevels[arrLength - 1]
 
-  for (let i = 1; i <= MAX_LEVEL; i++) {
+  for (let i = 1; i <= maxLevel; i++) {
     if (arrLevels.find(el => el == i) && (curr != i)) {
       arr.push({ key: i, status: 'done' })
     } else if (curr == i) {

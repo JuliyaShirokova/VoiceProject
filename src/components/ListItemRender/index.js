@@ -17,8 +17,7 @@ export default ListItemRender = ( props ) => {
 
     _onPressCurrent = () => {
       props.navigation.navigate(
-        'LevelScreen',
-        { key: item.key }
+        'LevelScreen'
         );
     };
 

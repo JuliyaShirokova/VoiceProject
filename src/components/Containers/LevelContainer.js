@@ -11,7 +11,7 @@ const getDisplayData = ( level, sublevel ) => {
     const currLevel = "level-" + lastInArray(level);
     const currSublevel = lastInArray(sublevel);
     const dataLevel = levelsSource[currLevel];
-    const data = dataLevel[currSublevel];
+    const data = dataLevel[currSublevel-1];
     return data || {"word": "", "syllable" : ""};
 }
 
