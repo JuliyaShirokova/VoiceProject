@@ -5,16 +5,13 @@ import { moderateScale } from '../../../utilits/scalable';
 import HeaderTitle from '../../Common/HeaderTitle';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { PADDING_HORIZONTAL } from '../../../constants/commonConstants';
-import LevelContainer from '../../Containers/LevelContainer';
 import { lastInArray } from '../../../utilits/lastInArray';
 import { connect } from 'react-redux';
-
+import Level from '../../../components/Level';
 
 class LevelScreen extends Component{
     constructor(props){
         super(props); 
-
-
     }
     
     static navigationOptions = ({ navigation }) => ({
@@ -52,7 +49,7 @@ class LevelScreen extends Component{
             <View
                 style={styles.container}
             >
-                <LevelContainer />
+                <Level />
             </View>
         )
     }
@@ -69,17 +66,15 @@ const styles=StyleSheet.create({
 const getCurrentLevel = (levels) => {
     const level = levels.level;
     const currLevel = lastInArray(level) || 1;
-    console.log('get current level ', currLevel)
+ //   console.log('get current level ', currLevel)
     return currLevel;
 }
 
 const mapStateToProps = state => {
-    console.log('Level screen', JSON.stringify(state))
     return ({
       currLevel: getCurrentLevel(state.levels),
     })
 }
-  
   
 const mapDispatchToProps = dispatch => ({})
 
