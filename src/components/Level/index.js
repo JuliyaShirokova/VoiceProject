@@ -31,6 +31,7 @@ class Level extends Component{
 
     getSyllableWord = () => {
         const { displayData } = this.props;
+        console.log('get syllable word props', this.props);
         const syllableWord = displayData.syllable;
         return syllableWord || '';
     }
@@ -46,6 +47,7 @@ class Level extends Component{
                 <View style={styles.wordContainer}>
                     <Speaker
                         speakedWord={syllableWord}
+                        levels = {levels}
                     />
                 </View>
                 <View style={styles.microphoneContainer}>
@@ -106,7 +108,7 @@ const mapStateToProps = state => {
     const _level = state.levels.level;
     const _sublevel = state.levels.sublevel;
     const displayData = getDisplayData(_level, _sublevel);
-    console.log('Level container', JSON.stringify(state));
+    console.log('Level map state to props', JSON.stringify(state));
     return ({
       levels: state.levels,
       displayData: displayData,

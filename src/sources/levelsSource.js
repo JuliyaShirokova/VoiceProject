@@ -1,12 +1,12 @@
 export const levelsSource = {
     "level-1": [
-        { "word":"мама", "syllable":"ма-ма" },
+        { "word":"a", "syllable":"a" },
         { "word":"у", "syllable":"у" },
         { "word":"о", "syllable":"о" },
         { "word":"ау", "syllable":"а-у" },
         { "word":"уа", "syllable":"у-а" },
-        { "word":"уо", "syllable":"у-о" },
-        { "word":"ао", "syllable":"а-о" }
+        { "word":"ау", "syllable":"ау" },
+        { "word":"уа", "syllable":"уа" },
     ],
     "level-2": [
         { "word":"е", "syllable":"е" },
@@ -15,7 +15,6 @@ export const levelsSource = {
         { "word":"ма", "syllable":"ма" },
         { "word":"му", "syllable":"му" },
         { "word":"мо", "syllable":"мо" },
-        { "word":"ме", "syllable":"ме" },
         { "word":"ми", "syllable":"ми" },
         { "word":"ум", "syllable":"ум" },
         { "word":"ам", "syllable":"ам" },

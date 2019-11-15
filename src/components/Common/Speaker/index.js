@@ -20,7 +20,6 @@ import {
       selectedVoice: null,
       speechRate: 0.5,
       speechPitch: 1,
-      arrSyllableWord: undefined
     };
   
     constructor(props) {
@@ -40,27 +39,32 @@ import {
     }
 
     componentDidMount = async () => {
-       await Tts.getInitStatus().then(this.initTts);
+       console.log('cdm speaker')
+       await Tts.getInitStatus()
+        .then( () => this.initTts() )
+        .catch( err => console.log('error init tts ', err));
     }
     
     transformToArray = (word) => word.split('-') || [word]
 
     getSyllableWord = () => {
       const { speakedWord } = this.props;
-      const arrSyllableWord = this.transformToArray(speakedWord);
-    //  console.log('speaked word', arrSyllableWord);
-      return arrSyllableWord;
+      return this.transformToArray(speakedWord);
     }
 
     renderSyllableWord = () => {
-      return this.state.arrSyllableWord.map((value, index, arr) => {
-      //console.log('val', value)
-        return (<View
-                  key = {value+index} 
+      const arrWord = this.getSyllableWord();
+      console.log('render syllable word', arrWord);
+      return arrWord.map((value, index, arr) => {
+      const elem = arr[index];
+      return (<View
+                  key = {value + index} 
                   style={styles.syllableHolder}>
                   <TouchableOpacity
                     style={styles.syllableTouch}
-                    onPress = { ( value ) => this.speakSyllable( value ) }
+                    onPress = { () => {
+                      return this.speakSyllable( elem );
+                    } }
                   >
                     <Text style={styles.syllableText}>{value}</Text>
                   </TouchableOpacity>
@@ -68,9 +72,10 @@ import {
         })
     }
 
-    speakSyllable = async (syllable) => {
-        Tts.stop();
-        Tts.speak(syllable);
+    speakSyllable = async (text) => {
+      console.log('onPress speak', text)
+        await Tts.stop();
+        await Tts.speak(text);
     }
 
     initTts = async () => {
@@ -98,8 +103,6 @@ import {
       } else {
         this.setState({ ttsStatus: 'initialized' });
       }
-      const arrWord = this.getSyllableWord();
-      this.setState({ arrSyllableWord: arrWord })
     };
   
     setSpeechRate = async rate => {
@@ -111,53 +114,15 @@ import {
       await Tts.setDefaultPitch(rate);
       this.setState({ speechPitch: rate });
     };
-  
-   /*  onVoicePress = async voice => {
-      try {
-        await Tts.setDefaultLanguage(voice.language);
-      } catch (err) {
-        console.log(`setDefaultLanguage error `, err);
-      }
-      await Tts.setDefaultVoice(voice.id);
-      this.setState({ selectedVoice: voice.id });
-    };
-   */
-    /* renderVoiceItem = ({ item }) => {
-      return (
-        <Button
-          title={`${item.language} - ${item.name || item.id}`}
-          color={this.state.selectedVoice === item.id ? undefined : "#969696"}
-          onPress={() => this.onVoicePress(item)}
-        />
-      );
-    }; */
-  
     render() {
-      /*
-       *       React Native TTS Example
-       *             |Read text|
-       *           Status: ready
-       *    Selected Voice: com.apple....
-       *      Speed: 0.50   ------o------
-       *      Pitch: 1.00   -----o-------
-       *  ________________________________
-       * | This is an example text        |
-       * |                                |
-       * |________________________________|
-       *           |de-DE - Anna|
-       *          |en-GB - Arthur|
-       *           |it-IT - Alice|
-       */
-      //const arrWord = this.state.arrSyllableWord;
       return (
         <View style={styles.container}>
           <View
             style={styles.wordContainer}
           >
-            { this.state.arrSyllableWord && this.renderSyllableWord() }
+            { this.renderSyllableWord() }
           </View>
-          <Text style={styles.label}>{`Selected Voice: ${this.state.selectedVoice || ""}`}</Text>
-  
+         
           <View style={styles.sliderContainer}>
             <Text
               style={styles.sliderLabel}
@@ -216,21 +181,21 @@ import {
       width: 150
     },
     wordContainer: {
-      height: 60,
-      width: '100%',
+      height: 140,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
     },
     syllableHolder: {
-      marginVertical: 10,
+      marginHorizontal: 3,
+      borderBottomWidth: 2,
+      borderColor: 'orange',
     },
     syllableTouch: {
-      borderBottomWidth: 1,
     },
     syllableText: {
-      fontSize: 20,
-      lineHeight: 24,
+      fontSize: 48,
+      lineHeight: 48,
       fontWeight: 'normal',
       paddingVertical: 10,
     }

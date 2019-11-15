@@ -92,18 +92,18 @@ class Microphone extends Component {
   _changeLevel = () => {
     
     const { levels } = this.props;
-    console.log('level props', JSON.stringify(levels))
+    //console.log('level props', JSON.stringify(levels))
     const arrLevel = levels.level;
 
     const currLevel = lastInArray(arrLevel);
-    console.log('current level', currLevel.toString());
+    //console.log('current level', currLevel.toString());
     const currArrSublevel = levelsSource && levelsSource['level-'+currLevel];
-    console.log('arr source ', JSON.stringify(levelsSource));
+    //console.log('arr source ', JSON.stringify(levelsSource));
     const maxSublevel = currArrSublevel && currArrSublevel.length;
     
     const arrSublevel = levels.sublevel;
     const currSublevel = lastInArray(arrSublevel);
-    console.log('current sublevel', currSublevel.toString());
+    //console.log('current sublevel', currSublevel.toString());
     
     if( currSublevel < maxSublevel){
       Alert.alert("Молодец!");
@@ -170,8 +170,6 @@ class Microphone extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native Voice!</Text>
-        <Text style={styles.instructions}>Press the button and start speaking.</Text>
         <Text style={styles.stat}>{`Started: ${this.state.started}`}</Text>
         <Text style={styles.stat}>{`Recognized: ${this.state.recognized}`}</Text>
         <Text style={styles.stat}>{`Pitch: ${this.state.pitch}`}</Text>

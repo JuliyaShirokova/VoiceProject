@@ -18,8 +18,8 @@ const levels = (state = INITIAL_STATE, action) => {
   switch (action.type){
     case LEVEL_UP:
       const l = state.level;
-      const lastL = l && l.length - 1;
-      const newLevel = lastL + 1 || 1;
+      const lastL = l && l.length;
+      const newLevel = lastL + 1|| 1;
       const currLevel = Math.min(newLevel, maxLevel);
       return {
         level: [...state.level, currLevel],
@@ -27,7 +27,7 @@ const levels = (state = INITIAL_STATE, action) => {
       };
     case SUBLEVEL_UP:
       const sl = state.sublevel;
-      const lastSl = sl && sl.length - 1;
+      const lastSl = sl && sl.length;
       const newSublevel = lastSl + 1 || 0;
       const currSublevel = Math.min(newSublevel, getMaxSublevel( state.level ));
       return {
