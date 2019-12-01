@@ -23,8 +23,8 @@ import { StyleSheet } from 'react-native';
 export default function BG(props) {
   return (
     <Svg 
-      height="568" 
-      width="322" 
+      height="100%" 
+      width="100%" 
       fill="none" 
       viewBox="0 0 322 568"
       style={styles.svg}
@@ -40,8 +40,4 @@ export default function BG(props) {
     </Svg>
   );
 }
-const styles= StyleSheet.create({
-  svg: {
-    resizeMode: 'stretch', 
-  }
-})
+const styles= StyleSheet.create({})

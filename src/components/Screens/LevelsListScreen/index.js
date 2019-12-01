@@ -47,7 +47,7 @@ class LevelsListScreen extends Component{
     componentDidMount() {
 //       SplashScreen.hide();
         const { onLevelsReset } = this.props;
-        console.log('cdm', this.props)
+        console.log('cdm level list', this.props)
         this.props.navigation.setParams({
             onLevelsReset: onLevelsReset
         })
@@ -96,7 +96,6 @@ const styles=StyleSheet.create({
 const mapStateToProps = state => (state)
   
 const mapDispatchToProps = dispatch => {
-    console.log('map dispatch to props')
     return ({
        onLevelsReset: () => dispatch(levelsReset())
     })

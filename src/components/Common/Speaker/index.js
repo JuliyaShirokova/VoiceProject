@@ -10,16 +10,13 @@ import {
     TextInput,
     Keyboard
   } from "react-native";
-  import Slider from '@react-native-community/slider';
-  import Tts from "react-native-tts";
+import Tts from "react-native-tts";
   
   export default class Speaker extends Component {
     state = {
       voices: [],
       ttsStatus: "initiliazing",
       selectedVoice: null,
-      speechRate: 0.5,
-      speechPitch: 1,
     };
   
     constructor(props) {
@@ -34,8 +31,8 @@ import {
       Tts.addEventListener("tts-cancel", event =>
         this.setState({ ttsStatus: "cancelled" })
       );
-      Tts.setDefaultRate(this.state.speechRate);
-      Tts.setDefaultPitch(this.state.speechPitch);
+      Tts.setDefaultRate(this.props.speechRate);
+      Tts.setDefaultPitch(this.props.speechPitch);
     }
 
     componentDidMount = async () => {
@@ -105,15 +102,6 @@ import {
       }
     };
   
-    setSpeechRate = async rate => {
-      await Tts.setDefaultRate(rate);
-      this.setState({ speechRate: rate });
-    };
-  
-    setSpeechPitch = async rate => {
-      await Tts.setDefaultPitch(rate);
-      this.setState({ speechPitch: rate });
-    };
     render() {
       return (
         <View style={styles.container}>
@@ -121,32 +109,6 @@ import {
             style={styles.wordContainer}
           >
             { this.renderSyllableWord() }
-          </View>
-         
-          <View style={styles.sliderContainer}>
-            <Text
-              style={styles.sliderLabel}
-            >{`Speed: ${this.state.speechRate.toFixed(2)}`}</Text>
-            <Slider
-              style={styles.slider}
-              minimumValue={0.01}
-              maximumValue={0.99}
-              value={this.state.speechRate}
-              onSlidingComplete={this.setSpeechRate}
-            />
-          </View>
-  
-          <View style={styles.sliderContainer}>
-            <Text
-              style={styles.sliderLabel}
-            >{`Pitch: ${this.state.speechPitch.toFixed(2)}`}</Text>
-            <Slider
-              style={styles.slider}
-              minimumValue={0.5}
-              maximumValue={2}
-              value={this.state.speechPitch}
-              onSlidingComplete={this.setSpeechPitch}
-            />
           </View>
         </View>
       );
@@ -159,26 +121,6 @@ import {
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#F5FCFF"
-    },
-    title: {
-      fontSize: 20,
-      textAlign: "center",
-      margin: 10
-    },
-    label: {
-      textAlign: "center"
-    },
-    sliderContainer: {
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center"
-    },
-    sliderLabel: {
-      textAlign: "center",
-      marginRight: 20
-    },
-    slider: {
-      width: 150
     },
     wordContainer: {
       height: 140,

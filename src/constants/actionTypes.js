@@ -1,3 +1,6 @@
 export const LEVEL_UP = "LEVEL_UP";
 export const LEVELS_RESET = 'LEVELS_RESET';
 export const SUBLEVEL_UP = "SUBLEVEL_UP";
+export const CHANGE_SPEECH_RATE = "CHANGE_SPEECH_RATE";
+export const CHANGE_SPEECH_PITCH = "CHANGE_SPEECH_PITCH";
+export const RESET_SETTINGS = "RESET_SETTINGS";
