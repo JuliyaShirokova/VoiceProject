@@ -6,6 +6,7 @@ import {
   Text,
   Dimensions,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { HelveticaNeueBold } from '../../constants/fonts';
 import * as colors from '../../constants/colors';
 import { moderateScale } from '../../utilits/scalable';
@@ -13,28 +14,44 @@ import { PADDING_HORIZONTAL } from '../../constants/commonConstants';
 
 
 export default ListItemRender = ( props ) => {
-    const { item } = {...props};
+  const { item } = {...props};
 
     _onPressCurrent = () => {
+      console.log('onPressCurrent', props)
       props.navigation.navigate(
-        'LevelScreen'
+        'Level'
         );
     };
 
     _onPressFuture = () => {
-
+      props.navigation.navigate(
+        'Level'
+      );
     };
+    _onPressDone = () => {
+      props.navigation.navigate(
+        'Level'
+      );
+    };
+    
+    renderComplexity = (num) => {
+      return [...Array(num)].map((e, i) => <View style={styles.starContainer} key={i}><Icon name='star' size={24} /></View>)
+    }
 
     _renderItem = (func, disabledItem, itemContainerStyle) => {
       return (
-        <TouchableOpacity
-          disabled={disabledItem}
-          onPress={func}
-        >
-          <View style={[styles.itemContainer, itemContainerStyle]}>
-            <Text style={styles.itemText}>{item.key}</Text>
-          </View>
-        </TouchableOpacity>
+        <View style={[styles.itemContainer, itemContainerStyle]}>
+        
+          <TouchableOpacity
+            style={styles.itemTouch}
+            disabled={disabledItem}
+            onPress={func}
+          >
+            <Text style={styles.itemText}>{item.name}</Text>
+            <View style={styles.complexityContainer}>{this.renderComplexity(item.complexity)}</View>
+          </TouchableOpacity>
+        </View>
+      
       );
     };
 
@@ -42,7 +59,7 @@ export default ListItemRender = ( props ) => {
 
     _prepareRenderItem = ( item ) => {
         switch (item.status){
-          case 'done': { return _renderItem( null, true, styles.itemContainerDone ); }
+          case 'done': { return _renderItem( _onPressDone, true, styles.itemContainerDone ); }
           case 'current': { return _renderItem( _onPressCurrent, false, styles.itemContainerCurrent ); }
           case 'future': { return _renderItem( _onPressFuture, true, styles.itemContainerFuture); }
           default: { return _renderItem( null, true, styles.itemContainerDone ); }
@@ -51,14 +68,21 @@ export default ListItemRender = ( props ) => {
 
     return _prepareRenderItem( item );
   };
-const buttonSize = Math.max(((Dimensions.get('screen').width - PADDING_HORIZONTAL * 2) * 0.2), 42);
   const styles = StyleSheet.create({
     itemContainer: {
-      height: buttonSize,
-      width: buttonSize,
-      justifyContent: 'center',
+      height: 40,
+      width: 260,
+      marginVertical: 5,
+      borderRadius: 8,
+      paddingHorizontal: PADDING_HORIZONTAL
+    },
+    itemTouch: {
+      height: '100%',
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       alignItems: 'center',
-      borderRadius: buttonSize / 2,
+      borderRadius: 8,
     },
     itemText: {
       fontSize: moderateScale(20),
@@ -79,10 +103,16 @@ const buttonSize = Math.max(((Dimensions.get('screen').width - PADDING_HORIZONTA
       },
       shadowOpacity: 0.23,
       shadowRadius: 2.62,
-
       elevation: 4,
     },
     itemContainerFuture: {
       backgroundColor: colors.futureBgColor,
     },
+    complexityContainer: {
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+    },
+    starContainer: {
+      marginLeft: 5,
+    }
   });

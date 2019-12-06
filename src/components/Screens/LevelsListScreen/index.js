@@ -1,105 +1,74 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import LevelsListContainer from '../../Containers/LevelsListContainer';
+import { View, StyleSheet } from 'react-native';
+import LevelsList from '../../LevelsList';
 import * as colors from '../../../constants/colors';
 import { moderateScale } from '../../../utilits/scalable';
 import HeaderTitle from '../../Common/HeaderTitle';
+import BackgroundPage from '../../Common/SvgComponents/BackgroundFull';
 import SplashScreen from 'react-native-splash-screen';
 import { PADDING_HORIZONTAL } from '../../../constants/commonConstants';
-import BG from '../../Common/SvgComponents/BG';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { connect } from 'react-redux';
-import { levelsReset } from '../../../actions'
+import { getThemeColor } from '../../../utilits/themeColorFunctions';
 
 class LevelsListScreen extends Component{
     constructor(props){
-        super(props);   
+        super(props);
+
+        this._getThemeColor = getThemeColor;
     }
-    
+
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: (<HeaderTitle 
-            text={"WELCOME!"} 
-            paddingLeft={PADDING_HORIZONTAL} 
-            textColor={colors.titleText} 
+        headerTitle: (<HeaderTitle
+            text={'WELCOME!'}
+            paddingLeft={PADDING_HORIZONTAL}
+            textColor={colors.titleText}
             />),
-        headerRight: (<View style={styles.rightButtonContainer}>
-                <TouchableOpacity
-                    onPress = { navigation.getParam("onLevelsReset") }
-                    style={styles.rightButtonTouch}
-                >
-                    <Icon 
-                        name='refresh'
-                        size={24}
-                        color={colors.titleText}
-                    />
-               </TouchableOpacity>
-            </View>
-        ), 
-        headerStyle: { 
+        headerStyle: {
             height: moderateScale(90),
-            paddingTop: moderateScale(30),
-            backgroundColor: colors.mainContrast,
             elevation: 0,
             shadowOpacity: 0,
-        }
+            borderBottomWidth: 0,
+        },
+        headerTransparent: true,
     });
-    
+
     componentDidMount() {
 //       SplashScreen.hide();
-        const { onLevelsReset } = this.props;
-        console.log('cdm level list', this.props)
-        this.props.navigation.setParams({
-            onLevelsReset: onLevelsReset
-        })
-    }  
+    }
 
     render(){
+        const { themeColor } = this.props;
+        const { startColor, stopColor } = this._getThemeColor(themeColor);
+
         return (
             <View
                 style={styles.container}
             >
-                <View style={styles.bgContainer}>
-                    <BG />
-                </View>
-                <LevelsListContainer
+                <BackgroundPage
+                    startColor={startColor}
+                    stopColor={stopColor}
+                />
+                <LevelsList
                     navigation = {this.props.navigation}
                 />
             </View>
-        )
+        );
     }
 }
-const styles=StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
     },
-    bgContainer: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-    },
-    rightButtonContainer: {
-        width: moderateScale(30),
-        height: moderateScale(30),
-        marginRight: PADDING_HORIZONTAL,
-    },
-    rightButtonTouch: {
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-})
+});
 
-const mapStateToProps = state => (state)
-  
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return ({
-       onLevelsReset: () => dispatch(levelsReset())
-    })
-}
+        themeColor: state.settings.themeColor,
+    });
+};
+
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(
     mapStateToProps,

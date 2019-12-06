@@ -3,14 +3,18 @@ import { connect } from 'react-redux';
 import { 
     StyleSheet,
     View,
+    ScrollView,
     Text,
     TouchableOpacity
 } from 'react-native';
+import BackgroundPage from '../Common/BackgroundPage';
 import Slider from '@react-native-community/slider';
 import Tts from "react-native-tts";
-import { changeSpeechRate, changeSpeechPitch } from '../../actions';
+import { changeSpeechRate, changeSpeechPitch, changeThemeColor, resetLevels } from '../../actions';
 import * as colors from '../../constants/colors';
 import Preloader from '../Common/Preloader';
+import { getThemeColor } from '../../utilits/themeColorFunctions';
+import { lightTheme, darkTheme, commonStyle } from '../Common/ThemeStyles';
 
 class Settings extends Component{
     constructor(props){
@@ -25,6 +29,7 @@ class Settings extends Component{
         Tts.addEventListener("tts-cancel", event =>
           this.setState({ ttsStatus: "cancelled" })
         );
+        this._getThemeColor = getThemeColor;
     }
     state = {
         voices: [],
@@ -88,39 +93,66 @@ class Settings extends Component{
         onChangeSpeechPitch( rate );
     };
 
+    setThemeColor = async rate => {
+        const { onChangeThemeColor } = this.props;
+        onChangeThemeColor( rate );
+    };
+
+
     checkSpeech = async () => {
         console.log('check speech')
         await Tts.stop();
         await Tts.speak('Проверка скорости речи');
     }
 
+    resetLevels = () => {
+        const { onResetLevels } = this.props;
+        onResetLevels();
+    }
+
     getOpacity = (disable) => {
         return (disable) ? 0.3 : 1;
     }
 
+    renderThemeColor = (theme) => {
+        return (theme.toFixed(2) > 50) ? 'Day' : 'Night';
+    }
+   
+
     render(){
-        const { speechRate, speechPitch } = this.props;
+        const { speechRate, speechPitch, themeColor } = this.props;
+        const { startColor, stopColor } = this._getThemeColor( themeColor );
         console.log('settings ', this.props);
-        if (this.state.isLoading){
+        const currStyles = ( themeColor > 50 ) ? lightTheme : darkTheme; 
+        if (!this.state.isLoading){
             return (<Preloader
                         colorIndicator = {colors.white}
+                        startColor={startColor}
+                        stopColor={stopColor}    
                     />)
         }else{
             return (
                 <View style={styles.container}>
-                    <View style={styles.contentContainer}>
-                        <View style={styles.titleContainer}>
-                            <Text style={styles.titleText}>Speaker Settings</Text>
+                    <BackgroundPage
+                        startColor={startColor}
+                        stopColor={stopColor}
+                     />
+                    <ScrollView style={[commonStyle.contentContainer, currStyles.contentContainer]}>
+                        <View style={commonStyle.screenTitleContainer}>
+                            <Text style={[commonStyle.screenTitleText, currStyles.screenTitleText]}>Settings</Text>
+                        </View>
+                        <View style={commonStyle.titleContainer}>
+                            <Text style={[commonStyle.titleText, currStyles.titleText]}>Speaker Settings</Text>
                         </View>
         
-                        <View style={styles.settingContainer}>
+                        <View style={commonStyle.settingContainer}>
                             <Text
-                                style={styles.settingLabel}
+                                style={[commonStyle.settingLabel, currStyles.settingLabel]}
                             >
                                 {`Speed: ${speechRate.toFixed(2)}`}
                             </Text>
                             <Slider
-                                style={styles.slider}
+                                style={commonStyle.slider}
                                 minimumValue={0.01}
                                 maximumValue={0.99}
                                 value={parseFloat(speechRate)}
@@ -128,38 +160,71 @@ class Settings extends Component{
                             />
                         </View>
         
-                        <View style={styles.settingContainer}>
+                        <View style={commonStyle.settingContainer}>
                             <Text
-                                style={styles.settingLabel}
+                                style={[commonStyle.settingLabel, currStyles.settingLabel]}
                             >
                                 {`Pitch: ${speechPitch.toFixed(2)}`}
                             </Text>
                             <Slider
-                            style={styles.slider}
+                            style={commonStyle.slider}
                             minimumValue={0.5}
                             maximumValue={2}
                             value={parseFloat(speechPitch)}
                             onSlidingComplete={this.setSpeechPitch}
                             />
                         </View>
-                        <View style={styles.settingContainer}>
+                        <View style={commonStyle.settingContainer}>
                             <Text
-                                style={styles.settingLabel}
+                                style={[commonStyle.settingLabel, currStyles.settingLabel]}
                             >
                                 {`Voice: ${this.state.selectedVoice}`}
                             </Text>
                         </View>
-                        <View style={styles.buttonCheckContainer}>
+                        <View style={commonStyle.buttonContainer}>
                             <TouchableOpacity
-                                style={[styles.buttonCheck, {opacity: this.getOpacity(this.state.isLoading)}]}
+                                style={[commonStyle.buttonTouch, {opacity: this.getOpacity(this.state.isLoading)}]}
                                 onPress={this.checkSpeech}
                                 disabled={this.state.isLoading} 
                             >
-                                <Text style={styles.butonCheckText}>Check Voice</Text>
+                                <Text style={commonStyle.buttonText}>Check Voice</Text>
                             </TouchableOpacity>
                         </View>
-      
-                    </View>
+
+                        <View style={commonStyle.titleContainer}>
+                            <Text style={[commonStyle.titleText, currStyles.titleText]}>Theme Settings</Text>
+                        </View>
+                        <View style={commonStyle.settingContainer}>
+                            <Text
+                                style={[commonStyle.settingLabel, currStyles.settingLabel]}
+                            >
+                                {this.renderThemeColor(themeColor)}
+                            </Text>
+                            <Slider
+                                style={commonStyle.slider}
+                                minimumValue={1}
+                                maximumValue={99}
+                                value={parseFloat(themeColor)}
+                                onSlidingComplete={this.setThemeColor}
+                            />
+                        </View>
+        
+                        <View style={commonStyle.titleContainer}>
+                            <Text style={[commonStyle.titleText, currStyles.titleText]}>Other settings</Text>
+                        </View>
+                        <View style={commonStyle.buttonContainer}>
+                            <TouchableOpacity
+                                style={[commonStyle.buttonTouch, {opacity: this.getOpacity(this.state.isLoading)}]}
+                                onPress={this.resetLevels}
+                                disabled={this.state.isLoading} 
+                            >
+                                <Text style={commonStyle.buttonText}>Reset levels</Text>
+                            </TouchableOpacity>
+                        </View>
+
+        
+  
+                    </ScrollView>
                    
                 </View>
             )
@@ -169,61 +234,27 @@ class Settings extends Component{
 
 const styles = StyleSheet.create({
     container: {
-       flex: 1,
+       width: '100%',
+       height: '100%',
+       alignItems: 'center'
     },
-    contentContainer: {
-        paddingHorizontal: 20
-    },
-    titleContainer: {
-        marginTop: 40,
-        marginBottom: 20,
-    },
-    titleText: {
-        fontSize: 24,
-        textAlign: "center",
-    },
-    settingContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    settingLabel: {
-        marginVertical: 10
-    },
-    slider: {
-        width: 240
-    },
-    buttonCheckContainer: {
-        width: 180,
-        height: 40,
-        marginVertical: 10
-    },
-    buttonCheck: {
-        width: '100%',
-        height: '100%',
-        backgroundColor: colors.mainContrast,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    butonCheckText: {
-        fontSize: 18,
-        lineHeight: 20,
-        color: colors.white,
-    }
-
 });
 
 const mapStateToProps = state => {
-    console.log('map state to props', state)
+    console.log('Settings connect map state to props', state)
     return ({ 
         speechRate: state.settings.speechRate,
-        speechPitch: state.settings.speechPitch
+        speechPitch: state.settings.speechPitch,
+        themeColor: state.settings.themeColor,
     })
 };
 
 
 const mapDispatchToProps = dispatch => ({
     onChangeSpeechRate: ( val ) => dispatch(changeSpeechRate( val )),
-    onChangeSpeechPitch: ( val ) => dispatch(changeSpeechPitch( val ))
+    onChangeSpeechPitch: ( val ) => dispatch(changeSpeechPitch( val )),
+    onChangeThemeColor: ( val ) => dispatch(changeThemeColor( val )),
+    onResetLevels: () => dispatch(resetLevels()),
 });
 export default connect(
     mapStateToProps,

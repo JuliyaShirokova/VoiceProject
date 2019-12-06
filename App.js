@@ -1,6 +1,6 @@
 
 import React, { Suspense } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, SafeAreaView } from 'react-native';
 import { Provider } from 'react-redux';
 import AppNavigator from './src/AppNavigator';
 import { store, persistor} from './src/store';

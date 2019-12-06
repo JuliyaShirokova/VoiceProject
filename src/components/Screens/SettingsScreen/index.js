@@ -13,16 +13,37 @@ class SettingsScreen extends Component{
     constructor(props){
         super(props);   
     }
+    
+    static navigationOptions = ({ navigation }) => ({
+        headerTitle: (<HeaderTitle 
+            text={"Settings"} 
+            paddingLeft={PADDING_HORIZONTAL} 
+            textColor={colors.titleText} 
+            />), 
+        headerStyle: { 
+            height: moderateScale(90),
+            paddingTop: moderateScale(30),
+            elevation: 0,
+            shadowOpacity: 0,
+            position: 'absolute', 
+            backgroundColor: 'transparent',
+            zIndex: 100,
+            top: 0,
+            left: 0, 
+            right: 0
+        }
+    });
+    
+    componentDidMount(){}
+
     render(){
         return (
             <View
                 style={styles.container}
             >
-                <View style={styles.bgContainer}>
-                    <BG />
-                </View>
-                <Settings />
-                
+                <Settings 
+                    navigation = {this.props.navigation}      
+                />
             </View>
         )
     }
@@ -30,24 +51,6 @@ class SettingsScreen extends Component{
 const styles=StyleSheet.create({
     container: {
         flex: 1,
-    },
-    bgContainer: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-    },
-    rightButtonContainer: {
-        width: moderateScale(30),
-        height: moderateScale(30),
-        marginRight: PADDING_HORIZONTAL,
-    },
-    rightButtonTouch: {
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
 })
 

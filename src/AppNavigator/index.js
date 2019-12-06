@@ -17,6 +17,11 @@ const LevelsStack = createStackNavigator(
     initialRouteName: 'LevelsList',
   }
 );
+const SettingsStack = createStackNavigator(
+  {
+    Settings: {screen: SettingsScreen}
+  }
+)
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -33,7 +38,6 @@ const TabNavigator = createBottomTabNavigator(
         } else if (routeName === 'Settings') {
           iconName = `gears`;
         }
-
         // You can return any component that you like here!
         return <Icons name={iconName} size={25} color={tintColor} />;
       },

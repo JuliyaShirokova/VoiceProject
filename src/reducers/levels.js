@@ -1,4 +1,4 @@
-import { LEVEL_UP, SUBLEVEL_UP, LEVELS_RESET } from '../constants/actionTypes';
+import { LEVEL_UP, SUBLEVEL_UP, RESET_LEVELS } from '../constants/actionTypes';
 import { maxLevel } from '../sources/levelsSource';
 import { levelsSource }  from '../sources/levelsSource';
 
@@ -9,7 +9,8 @@ const INITIAL_STATE = {
 
 const getMaxSublevel = ( level ) => {
   const currLevel = 'level-' + level[level.length - 1];
-  const arr = levelsSource[currLevel];
+  const lev = levelsSource[currLevel];
+  const arr = lev && lev.values 
   const sublevelLength = arr && arr.length;
   return sublevelLength || 1;
 };
@@ -34,7 +35,7 @@ const levels = (state = INITIAL_STATE, action) => {
         level: [...state.level],
         sublevel: [...state.sublevel, currSublevel],
       };
-    case LEVELS_RESET: 
+    case RESET_LEVELS: 
       console.log('reduser levels', action.type)
       return INITIAL_STATE; 
     default : 

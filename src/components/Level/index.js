@@ -71,15 +71,11 @@ const styles = StyleSheet.create({
     },
     speakerLetterContainer: {
         flex: 1,
-        borderWidth: 1,
-        borderColor: 'red',
     },
     wordContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: 'cyan',
-        borderWidth: 1,
     },
     syllableText: {
         fontSize: moderateScale(30),
@@ -89,8 +85,6 @@ const styles = StyleSheet.create({
     },
     microphoneContainer: {
         flex: 1,
-        borderWidth: 1,
-        borderColor: 'orange',
     },
 });
 
@@ -99,7 +93,8 @@ const getDisplayData = ( level, sublevel ) => {
     const currLevel = 'level-' + lastInArray(level);
     const currSublevel = lastInArray(sublevel);
     const dataLevel = levelsSource[currLevel];
-    const data = dataLevel[currSublevel - 1];
+    const arrWords = dataLevel && dataLevel['values'];
+    const data = arrWords[currSublevel - 1];
     return data || {'word': '', 'syllable' : ''};
 };
 

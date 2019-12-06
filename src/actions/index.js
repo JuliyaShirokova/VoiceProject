@@ -1,10 +1,11 @@
 import { 
   LEVEL_UP,
   SUBLEVEL_UP,
-  LEVELS_RESET,
+  RESET_LEVELS,
   CHANGE_SPEECH_RATE,
   CHANGE_SPEECH_PITCH,
-  RESET_SETTINGS
+  RESET_SETTINGS,
+  CHANGE_THEME_COLOR
 } from "../constants/actionTypes";
 
 export function levelUp( ) {
@@ -15,9 +16,9 @@ export function sublevelUp( ) {
   return { type: SUBLEVEL_UP };
 };
 
-export function levelsReset( ){
+export function resetLevels( ){
   console.log('actions levels reset');
-  return { type: LEVELS_RESET };
+  return { type: RESET_LEVELS };
 }
 
 export function changeSpeechRate( val ) {
@@ -31,6 +32,13 @@ export function changeSpeechPitch( val ) {
   return { 
     type: CHANGE_SPEECH_PITCH,
     payload: {speechPitchValue: val}
+  };
+}
+
+export function changeThemeColor( val ) {
+  return { 
+    type: CHANGE_THEME_COLOR,
+    payload: { themeColorValue: val }
   };
 }
 
